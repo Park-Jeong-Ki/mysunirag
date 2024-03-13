@@ -44,7 +44,7 @@ def main():
             ("gpt-3.5-turbo", "gpt-4-turbo-preview"),
             key="model_selection"
         )
-        uploaded_files = st.file_uploader("Upload your file", type=['pdf', 'docx'], accept_multiple_files=True)
+        uploaded_files = st.file_uploader("Upload your file", type=['pdf', 'docx', 'pptx'], accept_multiple_files=True)
         openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
         process = st.button("Process")
     if process:
@@ -55,7 +55,6 @@ def main():
         text_chunks = get_text_chunks(files_text)
         vetorestore = get_vectorstore(text_chunks)
 
-        # get_conversation_chain 호출 시 model_selection 추가
         st.session_state.conversation = get_conversation_chain(vetorestore, openai_api_key, st.session_state.model_selection)
 
         st.session_state.processComplete = True
